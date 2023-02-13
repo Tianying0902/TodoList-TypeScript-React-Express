@@ -1,15 +1,16 @@
 
 import React from 'react';
 import { TodoItem } from './TodoItem';
-import { Todo,DeleteTodo,MarkTodo } from '../types';
+import { Todo,DeleteTodo,MarkTodo ,EditTodo} from '../types';
 
 interface TodoListProps {
 todoData:Array<Todo>;
 deleteTodo:DeleteTodo;
 markTodo:MarkTodo;
+editTodo:EditTodo;
 } 
-export const TodoList:React.FC<TodoListProps>=({todoData,deleteTodo,markTodo})=>{
+export const TodoList:React.FC<TodoListProps>=({todoData,deleteTodo,markTodo,editTodo})=>{
     return (<div className='todo-list'>
-{todoData.map(todo=>(<TodoItem todo={todo} deleteTodo={deleteTodo} markTodo={markTodo}/>))}
+{todoData.map(todo=>(<TodoItem todo={todo} deleteTodo={deleteTodo} editTodo={editTodo} markTodo={markTodo}/>))}
     </div>)
 };

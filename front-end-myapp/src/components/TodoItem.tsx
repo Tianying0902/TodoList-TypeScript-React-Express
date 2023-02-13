@@ -1,19 +1,36 @@
-import React , {MouseEvent,ChangeEvent} from 'react'
-import { DeleteTodo, Todo,MarkTodo } from '../types';
+import React , {MouseEvent,ChangeEvent,useState,KeyboardEvent,useRef} from 'react'
+import { DeleteTodo, Todo,MarkTodo ,EditTodo} from '../types';
 interface TodoItemProps {
     todo:Todo;
     deleteTodo:DeleteTodo;
     markTodo:MarkTodo;
+    editTodo:EditTodo;
 }
-export const TodoItem:React.FC<TodoItemProps> = ({todo,deleteTodo,markTodo})=>{
+export const TodoItem:React.FC<TodoItemProps> = ({todo,deleteTodo,markTodo,editTodo})=>{
+    const [getSearchVal, SetGetSearchVal] = useState('');
+    const [edited,setEdited] = useState(true);
+    const editedValue = useRef(null);
+    const getIptValue = (event: { target: { value: string } }) => {
+        SetGetSearchVal(event.target.value);
+      };
     const handleDelete = (e:MouseEvent<HTMLButtonElement>) => {
         deleteTodo(todo.id)
     }
-    const handleMark = (e:MouseEvent<HTMLInputElement>) => {
+    const handleEdit = (e:KeyboardEvent<HTMLInputElement>) => {
+        if (e.keyCode === 13) {
+            setEdited(!edited);
+            editTodo(todo.id, getSearchVal);
+          }
+    }
+    const handleMark = (e:ChangeEvent<HTMLInputElement>) => {
 markTodo(todo.id);
     }
-  return (<div>
-    <input type="checkbox" checked={todo.completed} onClick={handleMark}
-     defaultValue={todo.task}/>
-    <span className={todo.completed?"completed-todo":"active-todo"}>{todo.task}</span><button onClick={handleDelete}>delete</button></div>);
+  return ( <div key={todo.id}>
+  <input onChange={handleMark} type="checkbox" checked={todo.completed}/>
+  {edited?
+  <span className={todo.completed?"completed-todo":"wait-todo"} onDoubleClick={()=>{setEdited(!edited)}}>{todo.task}</span>:
+  <input defaultValue={todo.task} type="text" onChange={getIptValue} ref={editedValue} onKeyDown={handleEdit}/>}
+  <button className='delete-btn' onClick={handleDelete}>delete</button>
+  </div>
+);
 }

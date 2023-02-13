@@ -27,11 +27,29 @@ app.post("/", bodyParser.urlencoded({ extend: true }), (req, res) => {
 });
 
 app.put("/:id", (req, res) => {
-  markData(req, res);
+  if(req.body.completed===0||req.body.completed===1){markData(req, res);}else {
+    editData(req,res)
+  }
+  
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+function editData (req,res) {
+    let condition = req.params.id;
+    let content = req.body.task;
+    const connection = mySqlConnection();
+    connection.connect();
+  
+    const updateTaskContent =
+      "UPDATE todo SET task = '" + content + "' where id = " + condition + " ";
+    connection.query(updateTaskContent, (err, rows) => {
+      if (err) throw err;
+      res.send(rows);
+    });
+  
+    connection.end();
+}
 function mySqlConnection() {
   const connection = mysql.createConnection({
     host: "localhost",
