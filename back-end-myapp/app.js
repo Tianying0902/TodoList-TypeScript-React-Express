@@ -1,10 +1,12 @@
 const express = require("express");
 const mysql = require("mysql");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const port = 3001;
 
 app.use(cors());
+app.use(bodyParser.json());
 app.get("/", (req, res) => {
   getData(res);
 });
@@ -16,6 +18,9 @@ app.get("/completed", (req, res) => {
 });
 app.delete("/:id", (req, res) => {
   deleteData(req, res);
+});
+app.post("/", bodyParser.urlencoded({ extend: true }), (req, res) => {
+  postData(req, res);
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
@@ -78,6 +83,25 @@ function deleteData(req, res) {
   connection.query(deleteTask, (err, rows) => {
     if (err) throw err;
     res.send(rows);
+  });
+
+  connection.end();
+}
+function postData(req, res) {
+  const task = { task: req.body.task };
+  const taskName = task.task;
+  const taskDefault = false;
+  const connection = mySqlConnection();
+  const insertNewTask =
+    "INSERT into todo(task, completed) VALUES ('" +
+    taskName +
+    "'," +
+    taskDefault +
+    ")";
+  connection.query(insertNewTask, (err, rows) => {
+    if (err) throw err;
+    res.send(task);
+    // console.log(rows);
   });
 
   connection.end();

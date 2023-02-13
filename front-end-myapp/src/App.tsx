@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo} from './types';
+import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo} from './types';
 import { TodoList } from './components/TodoList';
+import { TodoForm } from './components/TodoForm';
 
 function App() {
   const [tasks,setTasks] = useState<Array<Todo>>([]);
@@ -35,9 +36,23 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
     console.log(error);
   });
  }
+ const addTodo:AddTodo =(newTodo)=>{
+  axios
+    .post("http://localhost:3001", {
+      task: newTodo,
+      completed: false,
+    })
+    .then(function (response) {
+      showAllTodos();
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+}
   return (
     <div className="App">
         <h1>todos</h1>
+        <TodoForm addTodo={addTodo}/>
         <TodoList todoData={tasks} deleteTodo={deleteTodo}/>
         <button onClick={showAllTodos}>All</button>
         <button onClick={showActiveTodos}>Active</button>
