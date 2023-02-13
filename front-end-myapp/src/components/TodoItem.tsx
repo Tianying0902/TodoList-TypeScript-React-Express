@@ -1,15 +1,19 @@
-import React , {MouseEvent} from 'react'
-import { DeleteTodo, Todo } from '../types';
+import React , {MouseEvent,ChangeEvent} from 'react'
+import { DeleteTodo, Todo,MarkTodo } from '../types';
 interface TodoItemProps {
     todo:Todo;
     deleteTodo:DeleteTodo;
+    markTodo:MarkTodo;
 }
-export const TodoItem:React.FC<TodoItemProps> = ({todo,deleteTodo})=>{
+export const TodoItem:React.FC<TodoItemProps> = ({todo,deleteTodo,markTodo})=>{
     const handleDelete = (e:MouseEvent<HTMLButtonElement>) => {
         deleteTodo(todo.id)
     }
+    const handleMark = (e:MouseEvent<HTMLInputElement>) => {
+markTodo(todo.id);
+    }
   return (<div>
-    <input type="checkbox" checked={todo.completed} onChange={()=>console.log('heirhie')}
+    <input type="checkbox" checked={todo.completed} onClick={handleMark}
      defaultValue={todo.task}/>
-    {todo.task}<button onClick={handleDelete}>delete</button></div>);
+    <span className={todo.completed?"completed-todo":"active-todo"}>{todo.task}</span><button onClick={handleDelete}>delete</button></div>);
 }

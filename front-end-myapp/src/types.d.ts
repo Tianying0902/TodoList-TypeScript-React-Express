@@ -5,4 +5,5 @@ type ShowAllTodos =()=>void;
 type ShowActiveTodos=()=>void;
 type ShowCompletedTodos=()=>void;
 type DeleteTodo=(id:number)=>void;
+type MarkTodo=(id:number)=>void;
 type AddTodo=(newTodo:string)=>void;

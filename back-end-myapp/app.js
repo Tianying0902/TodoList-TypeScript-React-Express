@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   getData(res);
 });
+app.get("/:id", (req, res) => {
+  getCertainData(req, res);
+});
 app.get("/active", (req, res) => {
   getActiveData(res);
 });
@@ -21,6 +24,10 @@ app.delete("/:id", (req, res) => {
 });
 app.post("/", bodyParser.urlencoded({ extend: true }), (req, res) => {
   postData(req, res);
+});
+
+app.put("/:id", (req, res) => {
+  markData(req, res);
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
@@ -102,6 +109,36 @@ function postData(req, res) {
     if (err) throw err;
     res.send(task);
     // console.log(rows);
+  });
+
+  connection.end();
+}
+function getCertainData(req, res) {
+  let condition = req.params.id;
+  const connection = mySqlConnection();
+
+  connection.connect();
+
+  const selectCertainTask = "SELECT * from todo where id = " + condition + "";
+  connection.query(selectCertainTask, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+
+  connection.end();
+}
+function markData(req, res) {
+  let condition = req.params.id;
+  let status = req.body.completed;
+  const connection = mySqlConnection();
+
+  connection.connect();
+
+  const updateTaskStatus =
+    "UPDATE todo SET completed = " + status + " where id = " + condition + " ";
+  connection.query(updateTaskStatus, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
   });
 
   connection.end();

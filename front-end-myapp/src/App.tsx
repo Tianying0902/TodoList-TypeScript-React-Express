@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo} from './types';
+import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo} from './types';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 
@@ -25,7 +25,7 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
    .then((response) => {setTasks(response.data)});
    console.log(tasks);
  }
- const deleteTodo:DeleteTodo =(id)=>{
+ const deleteTodo:DeleteTodo =(id:number)=>{
   axios
   .delete(`http://localhost:3001/${id}`)
   .then((response) => {
@@ -36,7 +36,7 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
     console.log(error);
   });
  }
- const addTodo:AddTodo =(newTodo)=>{
+ const addTodo:AddTodo =(newTodo:string)=>{
   axios
     .post("http://localhost:3001", {
       task: newTodo,
@@ -49,11 +49,42 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
       console.error(error);
     });
 }
+const markTodo:MarkTodo =(id:number)=>{
+  axios
+  .get(`http://localhost:3001/${id}`)
+  .then((response) => {
+    if (response.data[0].completed === 0) {
+      axios
+        .put(`http://localhost:3001/${id}`, { completed: 1 })
+        .then((response) => {
+          console.log(response.data);
+          showAllTodos();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } 
+    if(response.data[0].complete === 1) {
+      axios
+        .put(`http://localhost:3001/${id}`, { completed: 0 })
+        .then((response) => {
+          console.log(response.data);
+          showAllTodos();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
   return (
     <div className="App">
         <h1>todos</h1>
         <TodoForm addTodo={addTodo}/>
-        <TodoList todoData={tasks} deleteTodo={deleteTodo}/>
+        <TodoList todoData={tasks} deleteTodo={deleteTodo} markTodo={markTodo}/>
         <button onClick={showAllTodos}>All</button>
         <button onClick={showActiveTodos}>Active</button>
         <button onClick={showCompletedTodos}>Completed</button>
