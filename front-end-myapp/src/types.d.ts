@@ -4,3 +4,4 @@ type Todo = {id:number,task:string,completed:boolean}
 type ShowAllTodos =()=>void;
 type ShowActiveTodos=()=>void;
 type ShowCompletedTodos=()=>void;
+type DeleteTodo=(id:number)=>void;

@@ -14,7 +14,9 @@ app.get("/active", (req, res) => {
 app.get("/completed", (req, res) => {
   getCompletedData(res);
 });
-
+app.delete("/:id", (req, res) => {
+  deleteData(req, res);
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
@@ -61,6 +63,19 @@ function getCompletedData(res) {
 
   const selectActiveTask = "SELECT * from todo where completed = 1";
   connection.query(selectActiveTask, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+
+  connection.end();
+}
+function deleteData(req, res) {
+  let id = req.params.id;
+  const connection = mySqlConnection();
+
+  connection.connect();
+  const deleteTask = "DELETE from todo where id = " + id + "";
+  connection.query(deleteTask, (err, rows) => {
     if (err) throw err;
     res.send(rows);
   });

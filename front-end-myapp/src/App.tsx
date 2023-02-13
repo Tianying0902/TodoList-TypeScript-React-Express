@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos} from './types';
+import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo} from './types';
 import { TodoList } from './components/TodoList';
 
 function App() {
@@ -24,10 +24,21 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
    .then((response) => {setTasks(response.data)});
    console.log(tasks);
  }
+ const deleteTodo:DeleteTodo =(id)=>{
+  axios
+  .delete(`http://localhost:3001/${id}`)
+  .then((response) => {
+    console.log(response);
+    showAllTodos();
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+ }
   return (
     <div className="App">
         <h1>todos</h1>
-        <TodoList todoData={tasks}/>
+        <TodoList todoData={tasks} deleteTodo={deleteTodo}/>
         <button onClick={showAllTodos}>All</button>
         <button onClick={showActiveTodos}>Active</button>
         <button onClick={showCompletedTodos}>Completed</button>
