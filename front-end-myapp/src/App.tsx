@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos} from './types';
+import { TodoList } from './components/TodoList';
 
 function App() {
   const [tasks,setTasks] = useState<Array<Todo>>([]);
@@ -26,6 +27,7 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
   return (
     <div className="App">
         <h1>todos</h1>
+        <TodoList todoData={tasks}/>
         <button onClick={showAllTodos}>All</button>
         <button onClick={showActiveTodos}>Active</button>
         <button onClick={showCompletedTodos}>Completed</button>
