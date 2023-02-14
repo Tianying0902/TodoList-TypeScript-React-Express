@@ -12,6 +12,6 @@ editTodo:EditTodo;
 } 
 export const TodoList:React.FC<TodoListProps>=({todoData,deleteTodo,markTodo,editTodo})=>{
     return (<div className='todo-list'>
-{todoData.map(todo=>(<TodoItem todo={todo} deleteTodo={deleteTodo} editTodo={editTodo} markTodo={markTodo}/>))}
+{todoData.map(todo=>(<TodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo} editTodo={editTodo} markTodo={markTodo}/>))}
     </div>)
 };

@@ -10,102 +10,48 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   getData(res);
 });
-app.get("/:id", (req, res) => {
-  getCertainData(req, res);
-});
 app.get("/active", (req, res) => {
   getActiveData(res);
 });
 app.get("/completed", (req, res) => {
   getCompletedData(res);
 });
-app.delete("/:id", (req, res) => {
-  deleteData(req, res);
+
+app.get("/:id", (req, res) => {
+  getCertainData(req, res);
 });
 app.post("/", bodyParser.urlencoded({ extend: true }), (req, res) => {
   postData(req, res);
 });
 
+app.delete("/:id", (req, res) => {
+  deleteData(req, res);
+});
+app.delete("/", (req, res) => {
+  deleteCompletedData(res);
+});
+
 app.put("/:id", (req, res) => {
-  if(req.body.completed===0||req.body.completed===1){markData(req, res);}else {
-    editData(req,res)
+  if (req.body.completed === 0 || req.body.completed === 1) {
+    markData(req, res);
+  } else {
+    editData(req, res);
   }
-  
 });
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log("server listening on port:3001");
 });
-function editData (req,res) {
-    let condition = req.params.id;
-    let content = req.body.task;
-    const connection = mySqlConnection();
-    connection.connect();
-  
-    const updateTaskContent =
-      "UPDATE todo SET task = '" + content + "' where id = " + condition + " ";
-    connection.query(updateTaskContent, (err, rows) => {
-      if (err) throw err;
-      res.send(rows);
-    });
-  
-    connection.end();
-}
-function mySqlConnection() {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "root12345",
-    database: "nodeSql",
-  });
-  return connection;
-}
-function getData(res) {
-  const connection = mySqlConnection();
 
+function editData(req, res) {
+  let condition = req.params.id;
+  let content = req.body.task;
+  const connection = mySqlConnection();
   connection.connect();
 
-  const selectAllTasks = "SELECT * from todo";
-  connection.query(selectAllTasks, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
-}
-function getActiveData(res) {
-  const connection = mySqlConnection();
-
-  connection.connect();
-
-  const selectActiveTask = "SELECT * from todo where completed = 0";
-  connection.query(selectActiveTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
-}
-function getCompletedData(res) {
-  const connection = mySqlConnection();
-
-  connection.connect();
-
-  const selectActiveTask = "SELECT * from todo where completed = 1";
-  connection.query(selectActiveTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
-}
-function deleteData(req, res) {
-  let id = req.params.id;
-  const connection = mySqlConnection();
-
-  connection.connect();
-  const deleteTask = "DELETE from todo where id = " + id + "";
-  connection.query(deleteTask, (err, rows) => {
+  const updateTaskContent =
+    "UPDATE todo SET task = '" + content + "' where id = " + condition + " ";
+  connection.query(updateTaskContent, (err, rows) => {
     if (err) throw err;
     res.send(rows);
   });
@@ -127,6 +73,83 @@ function postData(req, res) {
     if (err) throw err;
     res.send(task);
     // console.log(rows);
+  });
+
+  connection.end();
+}
+
+function deleteData(req, res) {
+  let id = req.params.id;
+  const connection = mySqlConnection();
+
+  connection.connect();
+  const deleteTask = "DELETE from todo where id = " + id + "";
+  connection.query(deleteTask, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+
+  connection.end();
+}
+function mySqlConnection() {
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "root12345",
+    database: "nodeSql",
+  });
+  return connection;
+}
+
+function deleteCompletedData(res) {
+  const connection = mySqlConnection();
+
+  connection.connect();
+  const deleteTask = "DELETE from todo where completed = 1";
+  connection.query(deleteTask, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+
+  connection.end();
+}
+function getData(res) {
+  const connection = mySqlConnection();
+
+  connection.connect();
+
+  const selectAllTasks = "SELECT * from todo";
+  connection.query(selectAllTasks, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+
+  connection.end();
+}
+
+function getActiveData(res) {
+  const connection = mySqlConnection();
+
+  connection.connect();
+
+  const selectActiveTask = "SELECT * from todo where completed = 0";
+  connection.query(selectActiveTask, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
+  });
+
+  connection.end();
+}
+function getCompletedData(res) {
+  const connection = mySqlConnection();
+
+  connection.connect();
+
+  const selectCompletedTask = "SELECT * from todo where completed = 1";
+  connection.query(selectCompletedTask, (err, rows) => {
+    if (err) throw err;
+    res.send(rows);
   });
 
   connection.end();

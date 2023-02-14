@@ -14,7 +14,18 @@
 .all-btn{
     padding-left: 0.5rem;
 }
-
+.all-btn:hover{
+    cursor: pointer;
+    color:black;
+}
+.active-btn:hover{
+    cursor: pointer;
+    color:black;
+}
+.completed-btn:hover{
+    cursor: pointer;
+    color:black;
+}
 .clear-btn{
     padding-right: 0.5rem;
 }

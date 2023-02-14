@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo,EditTodo} from './types';
+import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo,EditTodo,ClearCompletedTodos} from './types';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { TodoFilterButtons } from './components/TodoFilterButtons';
+
 
 function App() {
   const [tasks,setTasks] = useState<Array<Todo>>([]);
@@ -29,8 +30,7 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
  const deleteTodo:DeleteTodo =(id:number)=>{
   axios
   .delete(`http://localhost:3001/${id}`)
-  .then((response) => {
-    console.log(response);
+  .then(() => {
     showAllTodos();
   })
   .catch((error) => {
@@ -57,19 +57,17 @@ const markTodo:MarkTodo =(id:number)=>{
     if (response.data[0].completed === 0) {
       axios
         .put(`http://localhost:3001/${id}`, { completed: 1 })
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           showAllTodos();
         })
         .catch((error) => {
           console.log(error);
         });
     } 
-    if(response.data[0].complete === 1) {
+    else{
       axios
         .put(`http://localhost:3001/${id}`, { completed: 0 })
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           showAllTodos();
         })
         .catch((error) => {
@@ -84,21 +82,25 @@ const markTodo:MarkTodo =(id:number)=>{
 const editTodo:EditTodo =(id:number,value:string) => {
   axios
   .put(`http://localhost:3001/${id}`, { task: value })
-  .then((response) => {
-    console.log(response);
+  .then(() => {
     showAllTodos();
   })
   .catch((error) => {
     console.log(error);
   });
 }
-
+const clearCompletedTodos:ClearCompletedTodos=() =>{
+  axios
+  .delete(`http://localhost:3001`)
+  .then(() => {
+    showAllTodos();
+})}
   return (
     <div className="my-app">
         <h1 className='header'>todos</h1>
         <TodoForm addTodo={addTodo}/>
         <TodoList editTodo={editTodo} todoData={tasks} deleteTodo={deleteTodo} markTodo={markTodo}/>
-        <TodoFilterButtons todos={tasks} showActiveTodos={showActiveTodos} showAllTodos={showAllTodos} showCompletedTodos={showCompletedTodos}/>
+        <TodoFilterButtons clearCompletedTodos={clearCompletedTodos} todos={tasks} showActiveTodos={showActiveTodos} showAllTodos={showAllTodos} showCompletedTodos={showCompletedTodos}/>
     </div>
   );
 }

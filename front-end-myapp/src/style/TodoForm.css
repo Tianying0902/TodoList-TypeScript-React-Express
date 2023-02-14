@@ -9,7 +9,8 @@
     border-style: none;
 }
 .submit-btn:hover {
-color:red
+    cursor: pointer;
+color:black;
 }
 .input-content{
     text-align: center;
