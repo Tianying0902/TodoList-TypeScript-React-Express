@@ -1,0 +1,46 @@
+.todo-item {
+    padding-left: 0.5rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 2rem;
+    border-top: 1px solid lightgray;
+}
+.completed-todo{
+    text-decoration: line-through;
+flex:1;
+}
+.wait-todo {
+flex:1;
+}
+.todo-item:hover{
+    background-color: #F2F2F2;
+    }
+.check-box {
+
+}
+.edited-box{
+    height: 100%;
+    flex:1;
+    padding: 0;
+   border-width: 0;
+    margin: 0;
+    text-align: center;
+    border-style: none;
+}
+.edited-box:focus{
+outline: none;
+}
+.edited-box:hover{
+    background-color:#F2F2F2;
+    }
+.delete-btn{
+    padding-right: 0.5rem;
+    color:lightcoral
+}
+.delete-btn:hover{
+    cursor: pointer;
+    color: red;
+}
+

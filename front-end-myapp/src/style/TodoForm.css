@@ -1,0 +1,45 @@
+.todo-form {
+    margin: 0 auto;
+    width:60%;
+ display: flex;
+}
+.submit-btn {
+    color: gray;
+    background-color:white;
+    border-style: none;
+}
+.submit-btn:hover {
+color:red
+}
+.input-content{
+    text-align: center;
+    border-style: none;
+    border-radius: 2px;
+    height: 2.5rem;
+    width: 60%;
+    margin: 0 auto;
+    cursor: pointer;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+   flex: 1;
+}
+.input-content:hover {
+    background-color: #F2F2F2;
+}
+
+#inputBox {
+    height: 100%;
+    flex:1;
+    padding: 0;
+   border-width: 0;
+    margin: 0;
+    text-align: center;
+    border-style: none;
+}
+#inputBox:focus {
+    outline:none;
+}
+#inputBox:hover {
+    background-color:#F2F2F2;
+}
