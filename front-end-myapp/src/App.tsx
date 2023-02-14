@@ -4,6 +4,7 @@ import './App.css';
 import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo,EditTodo} from './types';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
+import { TodoFilterButtons } from './components/TodoFilterButtons';
 
 function App() {
   const [tasks,setTasks] = useState<Array<Todo>>([]);
@@ -93,14 +94,11 @@ const editTodo:EditTodo =(id:number,value:string) => {
 }
 
   return (
-    <div className="App">
-        <h1>todos</h1>
+    <div className="my-app">
+        <h1 className='header'>todos</h1>
         <TodoForm addTodo={addTodo}/>
         <TodoList editTodo={editTodo} todoData={tasks} deleteTodo={deleteTodo} markTodo={markTodo}/>
-        <button onClick={showAllTodos}>All</button>
-        <button onClick={showActiveTodos}>Active</button>
-        <button onClick={showCompletedTodos}>Completed</button>
-
+        <TodoFilterButtons todos={tasks} showActiveTodos={showActiveTodos} showAllTodos={showAllTodos} showCompletedTodos={showCompletedTodos}/>
     </div>
   );
 }

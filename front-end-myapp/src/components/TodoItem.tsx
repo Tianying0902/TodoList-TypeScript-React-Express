@@ -1,4 +1,5 @@
 import React , {MouseEvent,ChangeEvent,useState,KeyboardEvent,useRef} from 'react'
+import "../style/TodoItem.css"
 import { DeleteTodo, Todo,MarkTodo ,EditTodo} from '../types';
 interface TodoItemProps {
     todo:Todo;
@@ -25,12 +26,12 @@ export const TodoItem:React.FC<TodoItemProps> = ({todo,deleteTodo,markTodo,editT
     const handleMark = (e:ChangeEvent<HTMLInputElement>) => {
 markTodo(todo.id);
     }
-  return ( <div key={todo.id}>
-  <input onChange={handleMark} type="checkbox" checked={todo.completed}/>
+  return ( <div className='todo-item' key={todo.id}>
+  <input className='check-box' onChange={handleMark} type="checkbox" checked={todo.completed}/>
   {edited?
   <span className={todo.completed?"completed-todo":"wait-todo"} onDoubleClick={()=>{setEdited(!edited)}}>{todo.task}</span>:
-  <input defaultValue={todo.task} type="text" onChange={getIptValue} ref={editedValue} onKeyDown={handleEdit}/>}
-  <button className='delete-btn' onClick={handleDelete}>delete</button>
+  <input className='edited-box' defaultValue={todo.task} type="text" onChange={getIptValue} ref={editedValue} onKeyDown={handleEdit}/>}
+  <span className='delete-btn' onClick={handleDelete}>x</span>
   </div>
 );
 }

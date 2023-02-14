@@ -1,6 +1,6 @@
-
 import React,{ChangeEvent, useState,FormEvent} from 'react';
 import { AddTodo } from '../types';
+import "../style/TodoForm.css"
 interface TodoFormProps {
     addTodo:AddTodo;
 }
@@ -16,9 +16,9 @@ export const TodoForm:React.FC<TodoFormProps> = ({addTodo}) => {
         setNewTodo("");
     }
     return (
-<form>
-    <input type='text' value={newTodo} onChange={handleChange} placeholder="what's the next?"/>
-    <button type='submit' onClick={handleSubmit}>Add new text</button>
+<form className='todo-form'>
+    <input className='input-content' type='text' value={newTodo} onChange={handleChange} placeholder="what's the next?"/>
+    <button className='submit-btn' type='submit' onClick={handleSubmit}>Add new text</button>
 </form>
     )
 }

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import "../style/TodoList.css"
 import { TodoItem } from './TodoItem';
 import { Todo,DeleteTodo,MarkTodo ,EditTodo} from '../types';
 
