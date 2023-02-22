@@ -8,24 +8,28 @@ import { TodoFilterButtons } from './components/TodoFilterButtons';
 
 
 function App() {
+  useEffect(() => {
+    // Update the tasks
+    console.log(tasks)
+  });
   const [tasks,setTasks] = useState<Array<Todo>>([]);
 const showAllTodos:ShowAllTodos =()=>{
   axios
   .get(`http://localhost:3001`)
   .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
-  console.log(tasks);
+  // console.log(tasks);
 }
  const showActiveTodos:ShowActiveTodos =()=>{
  axios
   .get(`http://localhost:3001/active`)
   .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
-  console.log(tasks);
+  // console.log(tasks);
 }
 const showCompletedTodos:ShowCompletedTodos =()=>{
   axios
    .get(`http://localhost:3001/completed`)
    .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
-   console.log(tasks);
+  //  console.log(tasks);
  }
  const deleteTodo:DeleteTodo =(id:number)=>{
   axios
