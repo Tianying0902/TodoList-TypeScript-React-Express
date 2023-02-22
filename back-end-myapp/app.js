@@ -117,7 +117,7 @@ function deleteCompletedData(res) {
 async function getData(res) {
   // const connection = mySqlConnection();
   // connection.connect();
-  const selectAllTasks = "SELECT * from to";
+  const selectAllTasks = "SELECT * from todo";
   //queryPromise -> async await
   //get data->send->catch
   try {
