@@ -49,10 +49,10 @@ async function editData(req, res) {
     "UPDATE todo SET task = '" + content + "' where id = " + condition + " ";
   try {
     const result = await queryPromise(updateTaskContent);
-    res.send(result);
+    res.status(205).send(result);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 async function postData(req, res) {
@@ -67,10 +67,10 @@ async function postData(req, res) {
     ")";
   try {
     const result = await queryPromise(insertNewTask);
-    res.send(result);
+    res.status(201).send(result);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 
@@ -79,7 +79,7 @@ async function deleteData(req, res) {
   const deleteTask = "DELETE from todo where id = " + id + "";
   try {
     const result = await queryPromise(deleteTask);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
@@ -90,10 +90,10 @@ async function deleteCompletedData(res) {
   const deleteCompletedTasks = "DELETE from todo where completed = 1";
   try {
     const result = await queryPromise(deleteCompletedTasks);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 async function getData(res) {
@@ -102,10 +102,10 @@ async function getData(res) {
   //get data->send->catch
   try {
     const result = await queryPromise(selectAllTasks);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 
@@ -113,7 +113,7 @@ async function getActiveData(res) {
   const selectActiveTasks = "SELECT * from todo where completed = 0";
   try {
     const result = await queryPromise(selectActiveTasks);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
     res.status(404).send(err.message);
@@ -123,10 +123,10 @@ async function getCompletedData(res) {
   const selectCompletedTasks = "SELECT * from todo where completed = 1";
   try {
     const result = await queryPromise(selectCompletedTasks);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 async function getCertainData(req, res) {
@@ -134,7 +134,7 @@ async function getCertainData(req, res) {
   const selectCertainTask = "SELECT * from todo where id = " + condition + "";
   try {
     const result = await queryPromise(selectCertainTask);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
     res.status(404).send(err.message);
@@ -147,9 +147,9 @@ async function markData(req, res) {
     "UPDATE todo SET completed = " + status + " where id = " + condition + " ";
   try {
     const result = await queryPromise(updateTaskStatus);
-    res.send(result);
+    res.status(204).send(result);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err.message);
+    res.status(404).send(err.message);
   }
 }

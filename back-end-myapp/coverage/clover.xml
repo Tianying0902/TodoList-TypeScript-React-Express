@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1677041800318" clover="3.2.0">
-  <project timestamp="1677041800318" name="All files">
+<coverage generated="1677044616574" clover="3.2.0">
+  <project timestamp="1677044616574" name="All files">
     <metrics statements="25" coveredstatements="25" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2" elements="32" coveredelements="32" complexity="0" loc="25" ncloc="25" packages="1" files="1" classes="1"/>
     <file name="promise.js" path="/Users/tianying.wang/Desktop/TodoList-TypeScript-React-Express/back-end-myapp/promise.js">
       <metrics statements="25" coveredstatements="25" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2"/>
