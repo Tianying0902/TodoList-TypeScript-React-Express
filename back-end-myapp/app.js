@@ -20,7 +20,7 @@ app.get("/completed", (req, res) => {
 app.get("/:id", (req, res) => {
   getCertainData(req, res);
 });
-app.post("/", bodyParser.urlencoded({ extend: true }), (req, res) => {
+app.post("/", (req, res) => {
   postData(req, res);
 });
 
@@ -37,10 +37,6 @@ app.put("/:id", (req, res) => {
   } else {
     editData(req, res);
   }
-});
-
-app.listen(port, () => {
-  console.log("server listening on port:3001");
 });
 
 async function editData(req, res) {
@@ -154,3 +150,4 @@ async function markData(req, res) {
     res.status(404).send(err.message);
   }
 }
+module.exports = app;

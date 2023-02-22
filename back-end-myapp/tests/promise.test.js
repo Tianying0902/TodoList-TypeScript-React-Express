@@ -6,7 +6,7 @@ test("fetch data successfully with the content is 'Task 02' ", async () => {
   expect(testString).toBe("Task 002");
 });
 
-test("the fetch fails with an error", async () => {
+test("the fetch fails with a table that is not exist", async () => {
   //   expect.assertions(1);
   const wrongTableName = "xxx";
   const wrongQuery = "SELECT * from " + wrongTableName + "";
