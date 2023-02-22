@@ -1,5 +1,4 @@
 const express = require("express");
-const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
@@ -43,146 +42,114 @@ app.listen(port, () => {
   console.log("server listening on port:3001");
 });
 
-function editData(req, res) {
+async function editData(req, res) {
   let condition = req.params.id;
   let content = req.body.task;
-  const connection = mySqlConnection();
-  connection.connect();
-
   const updateTaskContent =
     "UPDATE todo SET task = '" + content + "' where id = " + condition + " ";
-  connection.query(updateTaskContent, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+  try {
+    const result = await queryPromise(updateTaskContent);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
 }
-function postData(req, res) {
+async function postData(req, res) {
   const task = { task: req.body.task };
   const taskName = task.task;
   const taskDefault = false;
-  const connection = mySqlConnection();
   const insertNewTask =
     "INSERT into todo(task, completed) VALUES ('" +
     taskName +
     "'," +
     taskDefault +
     ")";
-  connection.query(insertNewTask, (err, rows) => {
-    if (err) throw err;
-    res.send(task);
-    // console.log(rows);
-  });
-
-  connection.end();
+  try {
+    const result = await queryPromise(insertNewTask);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
 }
 
-function deleteData(req, res) {
+async function deleteData(req, res) {
   let id = req.params.id;
-  const connection = mySqlConnection();
-
-  connection.connect();
   const deleteTask = "DELETE from todo where id = " + id + "";
-  connection.query(deleteTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
-}
-function mySqlConnection() {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "root12345",
-    database: "nodeSql",
-  });
-  return connection;
+  try {
+    const result = await queryPromise(deleteTask);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
 }
 
-function deleteCompletedData(res) {
-  const connection = mySqlConnection();
-
-  connection.connect();
-  const deleteTask = "DELETE from todo where completed = 1";
-  connection.query(deleteTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+async function deleteCompletedData(res) {
+  const deleteCompletedTasks = "DELETE from todo where completed = 1";
+  try {
+    const result = await queryPromise(deleteCompletedTasks);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
 }
 async function getData(res) {
-  // const connection = mySqlConnection();
-  // connection.connect();
   const selectAllTasks = "SELECT * from todo";
   //queryPromise -> async await
   //get data->send->catch
   try {
     const result = await queryPromise(selectAllTasks);
     res.send(result);
-    connection.end();
   } catch (err) {
-    res.send(500, err);
+    console.log(err);
+    res.status(500).send(err.message);
   }
 }
 
-function getActiveData(res) {
-  const connection = mySqlConnection();
-
-  connection.connect();
-
-  const selectActiveTask = "SELECT * from todo where completed = 0";
-  connection.query(selectActiveTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+async function getActiveData(res) {
+  const selectActiveTasks = "SELECT * from todo where completed = 0";
+  try {
+    const result = await queryPromise(selectActiveTasks);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(404).send(err.message);
+  }
 }
-function getCompletedData(res) {
-  const connection = mySqlConnection();
-
-  connection.connect();
-
-  const selectCompletedTask = "SELECT * from todo where completed = 1";
-  connection.query(selectCompletedTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+async function getCompletedData(res) {
+  const selectCompletedTasks = "SELECT * from todo where completed = 1";
+  try {
+    const result = await queryPromise(selectCompletedTasks);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
 }
-function getCertainData(req, res) {
+async function getCertainData(req, res) {
   let condition = req.params.id;
-  const connection = mySqlConnection();
-
-  connection.connect();
-
   const selectCertainTask = "SELECT * from todo where id = " + condition + "";
-  connection.query(selectCertainTask, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+  try {
+    const result = await queryPromise(selectCertainTask);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(404).send(err.message);
+  }
 }
-function markData(req, res) {
+async function markData(req, res) {
   let condition = req.params.id;
   let status = req.body.completed;
-  const connection = mySqlConnection();
-
-  connection.connect();
-
   const updateTaskStatus =
     "UPDATE todo SET completed = " + status + " where id = " + condition + " ";
-  connection.query(updateTaskStatus, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+  try {
+    const result = await queryPromise(updateTaskStatus);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
 }
-module.exports = mySqlConnection;
