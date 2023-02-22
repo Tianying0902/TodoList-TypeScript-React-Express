@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const port = 3001;
-
+const queryPromise = require("./promise");
 app.use(cors());
 app.use(bodyParser.json());
 app.get("/", (req, res) => {
@@ -114,18 +114,19 @@ function deleteCompletedData(res) {
 
   connection.end();
 }
-function getData(res) {
-  const connection = mySqlConnection();
-
-  connection.connect();
-
-  const selectAllTasks = "SELECT * from todo";
-  connection.query(selectAllTasks, (err, rows) => {
-    if (err) throw err;
-    res.send(rows);
-  });
-
-  connection.end();
+async function getData(res) {
+  // const connection = mySqlConnection();
+  // connection.connect();
+  const selectAllTasks = "SELECT * from to";
+  //queryPromise -> async await
+  //get data->send->catch
+  try {
+    const result = await queryPromise(selectAllTasks);
+    res.send(result);
+    connection.end();
+  } catch (err) {
+    res.send(500, err);
+  }
 }
 
 function getActiveData(res) {
@@ -184,3 +185,4 @@ function markData(req, res) {
 
   connection.end();
 }
+module.exports = mySqlConnection;

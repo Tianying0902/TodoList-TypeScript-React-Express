@@ -12,7 +12,7 @@ function App() {
 const showAllTodos:ShowAllTodos =()=>{
   axios
   .get(`http://localhost:3001`)
-  .then((response) => {setTasks(response.data)});
+  .then((response) => {setTasks(response.data)}).catch((err)=>console.log('Request failed with status code 500'));
   console.log(tasks);
 }
  const showActiveTodos:ShowActiveTodos =()=>{
