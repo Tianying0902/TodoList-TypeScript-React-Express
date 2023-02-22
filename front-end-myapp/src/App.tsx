@@ -12,19 +12,19 @@ function App() {
 const showAllTodos:ShowAllTodos =()=>{
   axios
   .get(`http://localhost:3001`)
-  .then((response) => {setTasks(response.data)}).catch((err)=>console.log('Request failed with status code 500'));
+  .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
   console.log(tasks);
 }
  const showActiveTodos:ShowActiveTodos =()=>{
  axios
   .get(`http://localhost:3001/active`)
-  .then((response) => {setTasks(response.data)});
+  .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
   console.log(tasks);
 }
 const showCompletedTodos:ShowCompletedTodos =()=>{
   axios
    .get(`http://localhost:3001/completed`)
-   .then((response) => {setTasks(response.data)});
+   .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
    console.log(tasks);
  }
  const deleteTodo:DeleteTodo =(id:number)=>{
