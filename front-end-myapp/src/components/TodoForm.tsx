@@ -12,7 +12,11 @@ export const TodoForm:React.FC<TodoFormProps> = ({addTodo}) => {
     }
     const handleSubmit = (e:FormEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
-        addTodo(newTodo);
+        if(newTodo){
+            addTodo(newTodo);
+        }else {
+            alert("Please enter your new Todo");
+        }
         setNewTodo("");
     }
     return (

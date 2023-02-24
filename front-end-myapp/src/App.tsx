@@ -1,4 +1,5 @@
 import { useState,useEffect} from 'react';
+import {TodoHeader} from './components/TodoHeader'
 import axios from 'axios';
 import './App.css';
 import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo,EditTodo,ClearCompletedTodos} from './types';
@@ -6,18 +7,17 @@ import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { TodoFilterButtons } from './components/TodoFilterButtons';
 
-
 function App() {
   useEffect(() => {
     // Update the tasks
     console.log(tasks)
   });
   const [tasks,setTasks] = useState<Array<Todo>>([]);
-const showAllTodos:ShowAllTodos =()=>{
+  
+const showAllTodos:ShowAllTodos=()=>{
   axios
   .get(`http://localhost:3001`)
   .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
-  // console.log(tasks);
 }
  const showActiveTodos:ShowActiveTodos =()=>{
  axios
@@ -98,10 +98,10 @@ const clearCompletedTodos:ClearCompletedTodos=() =>{
   .delete(`http://localhost:3001`)
   .then(() => {
     showAllTodos();
-})}
+}).catch((error) => {console.log(error);});}
   return (
     <div className="my-app">
-        <h1 className='header'>todos</h1>
+        <TodoHeader/>
         <TodoForm addTodo={addTodo}/>
         <TodoList editTodo={editTodo} todoData={tasks} deleteTodo={deleteTodo} markTodo={markTodo}/>
         <TodoFilterButtons clearCompletedTodos={clearCompletedTodos} todos={tasks} showActiveTodos={showActiveTodos} showAllTodos={showAllTodos} showCompletedTodos={showCompletedTodos}/>

@@ -1,7 +1,8 @@
 .header {
+  margin:1rem auto;
   font-family: 'Catamaran', sans-serif;
   text-align: center;
-  font-size: 6rem;
-  font-weight:light;
-  color: gray;
+  font-size: 4rem;
+  font-weight:normal;
+  color: rgba(193, 184, 184, 0.948);
 }
