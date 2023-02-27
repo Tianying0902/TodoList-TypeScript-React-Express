@@ -2,7 +2,7 @@ import { useState,useEffect} from 'react';
 import {TodoHeader} from './components/TodoHeader'
 import axios from 'axios';
 import './App.css';
-import { Todo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo,EditTodo,ClearCompletedTodos} from './types';
+import { ITodo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTodo,MarkTodo,EditTodo,ClearCompletedTodos} from './types';
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { TodoFilterButtons } from './components/TodoFilterButtons';
@@ -12,7 +12,7 @@ function App() {
     // Update the tasks
     console.log(tasks)
   });
-  const [tasks,setTasks] = useState<Array<Todo>>([]);
+  const [tasks,setTasks] = useState<Array<ITodo>>([]);
   
 const showAllTodos:ShowAllTodos=()=>{
   axios

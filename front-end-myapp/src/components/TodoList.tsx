@@ -2,10 +2,10 @@
 import React from 'react';
 import "../style/TodoList.css"
 import { TodoItem } from './TodoItem';
-import { Todo,DeleteTodo,MarkTodo ,EditTodo} from '../types';
+import { ITodo,DeleteTodo,MarkTodo ,EditTodo} from '../types';
 
 interface TodoListProps {
-todoData:Array<Todo>;
+todoData:Array<ITodo>;
 deleteTodo:DeleteTodo;
 markTodo:MarkTodo;
 editTodo:EditTodo;

@@ -1,8 +1,8 @@
 import React , {MouseEvent,ChangeEvent,useState,KeyboardEvent,useRef} from 'react'
 import "../style/TodoItem.css"
-import { DeleteTodo, Todo,MarkTodo ,EditTodo} from '../types';
+import { DeleteTodo, ITodo,MarkTodo ,EditTodo} from '../types';
 interface TodoItemProps {
-    todo:Todo;
+    todo:ITodo;
     deleteTodo:DeleteTodo;
     markTodo:MarkTodo;
     editTodo:EditTodo;

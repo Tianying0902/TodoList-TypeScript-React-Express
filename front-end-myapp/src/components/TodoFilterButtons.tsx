@@ -1,9 +1,9 @@
 import React from 'react';
 import "../style/TodoFilterButtons.css"
-import {Todo, ShowActiveTodos, ShowAllTodos, ShowCompletedTodos,ClearCompletedTodos } from '../types';
+import {ITodo, ShowActiveTodos, ShowAllTodos, ShowCompletedTodos,ClearCompletedTodos } from '../types';
 
 interface TodoFilterButtonsProps{
-    todos:Array<Todo>;
+    todos:Array<ITodo>;
     showAllTodos:ShowAllTodos;
     showActiveTodos:ShowActiveTodos;
     showCompletedTodos:ShowCompletedTodos;
