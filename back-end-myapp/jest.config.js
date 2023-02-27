@@ -192,4 +192,7 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+  preset: "ts-jest",
+  transform: { "^.+\\.ts?$": "ts-jest" },
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 };
