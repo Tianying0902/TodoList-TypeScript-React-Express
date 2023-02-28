@@ -6,6 +6,7 @@ import { ITodo,ShowAllTodos,ShowActiveTodos,ShowCompletedTodos,DeleteTodo,AddTod
 import { TodoList } from './components/TodoList';
 import { TodoForm } from './components/TodoForm';
 import { TodoFilterButtons } from './components/TodoFilterButtons';
+import {TodosContext} from './provider/TodosProvider'
 
 function App() {
   useEffect(() => {
@@ -14,24 +15,24 @@ function App() {
   });
   const [tasks,setTasks] = useState<Array<ITodo>>([]);
   
-const showAllTodos:ShowAllTodos=()=>{
+ const showAllTodos:ShowAllTodos=async()=>{
   axios
   .get(`http://localhost:3001`)
   .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
 }
- const showActiveTodos:ShowActiveTodos =()=>{
+ const showActiveTodos:ShowActiveTodos =async()=>{
  axios
   .get(`http://localhost:3001/active`)
   .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
   // console.log(tasks);
 }
-const showCompletedTodos:ShowCompletedTodos =()=>{
+const showCompletedTodos:ShowCompletedTodos =async()=>{
   axios
    .get(`http://localhost:3001/completed`)
    .then((response) => {setTasks(response.data)}).catch((err)=>console.log(err.response.data));
   //  console.log(tasks);
  }
- const deleteTodo:DeleteTodo =(id:number)=>{
+ const deleteTodo:DeleteTodo =async(id:number)=>{
   axios
   .delete(`http://localhost:3001/${id}`)
   .then(() => {
@@ -41,7 +42,7 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
     console.log(error);
   });
  }
- const addTodo:AddTodo =(newTodo:string)=>{
+ const addTodo:AddTodo =async(newTodo:string)=>{
   axios
     .post("http://localhost:3001", {
       task: newTodo,
@@ -54,7 +55,7 @@ const showCompletedTodos:ShowCompletedTodos =()=>{
       console.error(error);
     });
 };
-const markTodo:MarkTodo =(id:number)=>{
+const markTodo:MarkTodo =async(id:number)=>{
   axios
   .get(`http://localhost:3001/${id}`)
   .then((response) => {
@@ -83,7 +84,7 @@ const markTodo:MarkTodo =(id:number)=>{
     console.log(error);
   });
 };
-const editTodo:EditTodo =(id:number,value:string) => {
+const editTodo:EditTodo =async(id:number,value:string) => {
   axios
   .put(`http://localhost:3001/${id}`, { task: value })
   .then(() => {
@@ -93,19 +94,21 @@ const editTodo:EditTodo =(id:number,value:string) => {
     console.log(error);
   });
 }
-const clearCompletedTodos:ClearCompletedTodos=() =>{
+const clearCompletedTodos:ClearCompletedTodos=async() =>{
   axios
   .delete(`http://localhost:3001`)
   .then(() => {
     showAllTodos();
 }).catch((error) => {console.log(error);});}
   return (
-    <div className="my-app">
+    <TodosContext.Provider value={tasks}>
+      <div className="my-app">
         <TodoHeader/>
         <TodoForm addTodo={addTodo}/>
         <TodoList editTodo={editTodo} todoData={tasks} deleteTodo={deleteTodo} markTodo={markTodo}/>
         <TodoFilterButtons clearCompletedTodos={clearCompletedTodos} todos={tasks} showActiveTodos={showActiveTodos} showAllTodos={showAllTodos} showCompletedTodos={showCompletedTodos}/>
     </div>
+    </TodosContext.Provider>
   );
 }
 
